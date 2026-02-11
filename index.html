@@ -19,10 +19,8 @@
       justify-content: center;
       height: 100vh;
       text-align: center;
-      background: #888888;
-      /* faint grain overlay */
-      background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 4px 4px;
+      background: #222222; /* dark grey */
+      color: #fffdd0; /* cream white */
     }
 
     button {
@@ -33,18 +31,18 @@
       cursor: pointer;
       font-weight: bold;
       font-family: 'Minecraftia', monospace;
-    }
-
-    .yes-btn {
-      background: green;
-      color: white;
-      font-size: 16px;
       transition: font-size 0.2s ease;
     }
 
+    .yes-btn {
+      background: #ffffff; /* white */
+      color: #222222; /* dark text */
+      font-size: 16px;
+    }
+
     .no-btn {
-      background: red;
-      color: white;
+      background: #000000; /* black */
+      color: #ffffff; /* white text */
       font-size: 16px;
     }
 
@@ -55,16 +53,11 @@
 
     h1 {
       font-size: 16px;
-      color: #ff3c78;
-      animation: heartbeat 1.2s infinite;
       margin-bottom: 20px;
-    }
-
-    @keyframes heartbeat {
-      0%, 100% { transform: scale(1); }
-      25% { transform: scale(1.1); }
-      50% { transform: scale(1.2); }
-      75% { transform: scale(1.1); }
+      min-height: 2em;
+      white-space: pre;
+      overflow: hidden;
+      border-right: 2px solid #fffdd0; /* cream-white cursor */
     }
 
     .yay {
@@ -78,7 +71,7 @@
 
   <div id="app">
     <img id="mainImg" src="https://e.top4top.io/p_36944kt0p1.gif">
-    <h1>Will you be my Valentine? 💘</h1>
+    <h1 id="valentineText"></h1>
     <div>
       <button id="yesBtn" class="yes-btn">Yes</button>
       <button id="noBtn" class="no-btn">No</button>
@@ -96,12 +89,25 @@
     "Please don't do this to me, I'm fragile 😔",
   ];
 
-  let noClicks = 0;
+  const valentineLine = "Will you be my Valentine? 😅";
+  let charIndex = 0;
 
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
   const mainImg = document.getElementById("mainImg");
   const app = document.getElementById("app");
+  const valentineText = document.getElementById("valentineText");
+
+  // Typing effect
+  function typeWriter() {
+    if (charIndex < valentineLine.length) {
+      valentineText.textContent += valentineLine.charAt(charIndex);
+      charIndex++;
+      setTimeout(typeWriter, 120);
+    }
+  }
+
+  typeWriter();
 
   yesBtn.onclick = () => {
     app.innerHTML = `
@@ -110,6 +116,7 @@
     `;
   };
 
+  let noClicks = 0;
   noBtn.onclick = () => {
     noClicks++;
     yesBtn.style.fontSize = (16 + noClicks * 20) + "px";
