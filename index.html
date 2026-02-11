@@ -5,22 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Valentine Invitation</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-  <link href="https://fonts.cdnfonts.com/css/minecraftia" rel="stylesheet">
-
+  <!-- Apple system font -->
   <style>
-    body {
+    body, button {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", sans-serif;
       margin: 0;
-      font-family: 'Press Start 2P', cursive;
+      color: #fffdd0;
+      background: #222222;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
       text-align: center;
-      background: #222222; /* dark grey */
-      color: #fffdd0; /* cream white */
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 28px;
+      min-height: 2em;
+      white-space: pre;
+      overflow: hidden;
+      border-right: 2px solid #fffdd0;
+      margin-bottom: 20px;
     }
 
     button {
@@ -30,19 +37,18 @@
       border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
-      font-family: 'Minecraftia', monospace;
       transition: font-size 0.2s ease;
     }
 
     .yes-btn {
-      background: #ffffff; /* white */
-      color: #222222; /* dark text */
+      background: #ffffff;
+      color: #222222;
       font-size: 16px;
     }
 
     .no-btn {
-      background: #000000; /* black */
-      color: #ffffff; /* white text */
+      background: #000000;
+      color: #ffffff;
       font-size: 16px;
     }
 
@@ -51,23 +57,26 @@
       margin-bottom: 20px;
     }
 
-    h1 {
+    .poem {
       font-size: 16px;
-      margin-bottom: 20px;
-      min-height: 2em;
-      white-space: pre;
-      overflow: hidden;
-      border-right: 2px solid #fffdd0; /* cream-white cursor */
+      margin-top: 20px;
+      max-width: 500px;
+      line-height: 1.6;
+      white-space: pre-line;
     }
 
-    .yay {
-      font-size: 48px;
-      color: pink;
-      font-weight: bold;
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
     }
   </style>
 </head>
 <body>
+
+  <canvas id="confettiCanvas"></canvas>
 
   <div id="app">
     <img id="mainImg" src="https://e.top4top.io/p_36944kt0p1.gif">
@@ -89,12 +98,11 @@
     "Please don't do this to me, I'm fragile 😔",
   ];
 
-  const valentineLine = "Will you be my Valentine? 😅";
+  const valentineLine = "Will you be my Valentine? 💘";
   let charIndex = 0;
 
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
-  const mainImg = document.getElementById("mainImg");
   const app = document.getElementById("app");
   const valentineText = document.getElementById("valentineText");
 
@@ -106,13 +114,89 @@
       setTimeout(typeWriter, 120);
     }
   }
-
   typeWriter();
 
+  // Confetti setup
+  const canvas = document.getElementById("confettiCanvas");
+  const ctx = canvas.getContext("2d");
+  let confetti = [];
+  const colors = ["#ff4d6d", "#ffcc66", "#66ffcc", "#66ccff", "#ff66ff"];
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  function createConfetti() {
+    confetti = []; // reset confetti array
+    for (let i = 0; i < 150; i++) {
+      confetti.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 6 + 2,
+        d: Math.random() * 50 + 10,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        tilt: Math.floor(Math.random() * 10) - 10,
+        tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
+        tiltAngle: 0
+      });
+    }
+  }
+
+  function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    confetti.forEach((c) => {
+      ctx.beginPath();
+      ctx.lineWidth = c.r;
+      ctx.strokeStyle = c.color;
+      ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+      ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+      ctx.stroke();
+    });
+    updateConfetti();
+  }
+
+  function updateConfetti() {
+    confetti.forEach((c) => {
+      c.tiltAngle += c.tiltAngleIncremental;
+      c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+      c.x += Math.sin(c.d);
+      c.tilt = Math.sin(c.tiltAngle) * 15;
+
+      if (c.y > canvas.height) {
+        c.x = Math.random() * canvas.width;
+        c.y = -20;
+        c.tilt = Math.random() * 10 - 10;
+      }
+    });
+  }
+
+  let confettiInterval;
+  function startConfetti() {
+    createConfetti();
+    confettiInterval = setInterval(drawConfetti, 20);
+    setTimeout(() => clearInterval(confettiInterval), 5000);
+  }
+
   yesBtn.onclick = () => {
+    startConfetti();
     app.innerHTML = `
       <img src="https://g.top4top.io/p_3694bqtpg0.gif">
-      <div class="yay">Yay!!! 💖🎉</div>
+      <div class="poem">
+        Through storms and tears we've wandered far,<br>
+        Broken paths and nights apart,<br>
+        Yet every trial, every scar,<br>
+        Built a stronger beating heart.<br><br>
+        We've stumbled, fallen, risen again,<br>
+        Fought the doubts, endured the pain,<br>
+        And in each break, our love remains,<br>
+        A fire eternal, free from chains.<br><br>
+        So here I stand, with all my soul,<br>
+        Asking you to make us whole,<br>
+        Together, stronger than before,<br>
+        Forever ours, forever more. 💖
+      </div>
     `;
   };
 
