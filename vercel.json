@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/docs/(.*)", "dest": "/docs/$1" },
+    { "src": "/(home\\.html|index\\.html)", "dest": "/$1" },
+    { "src": "/(.*)", "dest": "/public/$1" },
+    { "src": "/.*", "status": 404, "dest": "/public/404.html" }
+  ],
+  "env": {
+    "NODE_VERSION": "18.x"
+  }
+}
