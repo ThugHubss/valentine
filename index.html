@@ -60,10 +60,14 @@
       border-right: 2px solid #fffdd0;
     }
 
-    .yay {
-      font-size: 48px;
-      color: pink;
-      font-weight: bold;
+    .poem {
+      font-size: 16px;
+      margin-top: 20px;
+      max-width: 500px;
+      line-height: 1.6;
+      color: #fffdd0;
+      white-space: pre-line;
+      text-align: center;
     }
 
     canvas {
@@ -89,17 +93,17 @@
   </div>
 
 <script>
-  // NO button phrases
   const NO_PHRASES = [
     "No? 💔", "Pretty please? 🥺", "But we'd be so cute together! 💕",
     "One more chance, pookie? 😭💔", "Don't break my heart :(", 
     "What about a maybe?", "Please don't do this to me, I'm fragile 😔"
   ];
 
-  // Typing effect for valentine text
   const valentineLine = "Will you be my Valentine? 💘";
   let charIndex = 0;
   const valentineText = document.getElementById("valentineText");
+
+  // Typing effect
   function typeWriter() {
     if (charIndex < valentineLine.length) {
       valentineText.textContent += valentineLine.charAt(charIndex);
@@ -180,7 +184,20 @@
     startConfetti();
     app.innerHTML = `
       <img src="https://g.top4top.io/p_3694bqtpg0.gif">
-      <div class="yay">Yay!!! 💖🎉</div>
+      <div class="poem">
+Through storms and tears we've wandered far,<br>
+Broken paths and nights apart,<br>
+Yet every trial, every scar,<br>
+Built a stronger beating heart.<br><br>
+We've stumbled, fallen, risen again,<br>
+Fought the doubts, endured the pain,<br>
+And in each break, our love remains,<br>
+A fire eternal, free from chains.<br><br>
+So here I stand, with all my soul,<br>
+Asking you to make us whole,<br>
+Together, stronger than before,<br>
+Forever ours, forever more. 💖
+      </div>
     `;
   };
 </script>
