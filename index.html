@@ -4,17 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Valentine Invitation</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link href="https://fonts.cdnfonts.com/css/minecraftia" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Press Start 2P', cursive;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
       text-align: center;
-      background: #fff;
+      background: #888888;
+      /* faint grain overlay */
+      background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 4px 4px;
     }
 
     button {
@@ -24,12 +32,14 @@
       border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
+      font-family: 'Minecraftia', monospace;
     }
 
     .yes-btn {
       background: green;
       color: white;
       font-size: 16px;
+      transition: font-size 0.2s ease;
     }
 
     .no-btn {
@@ -40,6 +50,21 @@
 
     img {
       max-width: 300px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 16px;
+      color: #ff3c78;
+      animation: heartbeat 1.2s infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1.2); }
+      75% { transform: scale(1.1); }
     }
 
     .yay {
